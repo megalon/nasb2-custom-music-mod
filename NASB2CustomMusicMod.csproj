@@ -16,6 +16,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="SlimeModdingUtils">
+      <HintPath>$(GameDir)\BepInEx\plugins\Steven-Slime_Modding_Utilities\SlimeModdingUtilities.dll</HintPath>
+    </Reference>
     <Reference Include="0Harmony">
       <HintPath>$(GameDir)\BepInEx\core\0Harmony.dll</HintPath>
     </Reference>
@@ -38,13 +41,16 @@
       <HintPath>$(GameDir)\Nickelodeon All-Star Brawl 2_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UnityWebRequestAudioModule">
-      <HintPath>$(GameDir)\Nickelodeon All-Star Brawl 2_Data\Managed\UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
+      <HintPath>$(GameDir)\unstripped_corlib\UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UnityWebRequestModule">
       <HintPath>$(GameDir)\Nickelodeon All-Star Brawl 2_Data\Managed\UnityEngine.UnityWebRequestModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UnityWebRequestWWWModule">
-      <HintPath>$(GameDir)\Nickelodeon All-Star Brawl 2_Data\Managed\UnityEngine.UnityWebRequestWWWModule.dll</HintPath>
+      <HintPath>$(GameDir)\unstripped_corlib\UnityEngine.UnityWebRequestWWWModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Localization">
+      <HintPath>$(GameDir)\Nickelodeon All-Star Brawl 2_Data\Managed\Unity.Localization.dll</HintPath>
     </Reference>
   </ItemGroup>
 
