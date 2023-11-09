@@ -16,7 +16,10 @@ namespace NickCustomMusicMod.Utils
 			else if (Consts.CharacterIDs.ContainsKey(folderName))
 			{
 				return Consts.CharacterIDs[folderName];
-			}
+			} else if (Consts.MenuIDs.ContainsKey(folderName))
+			{
+                return Consts.MenuIDs[folderName];
+            }
 			return folderName;
 		}
 

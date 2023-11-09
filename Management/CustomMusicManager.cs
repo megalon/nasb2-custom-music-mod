@@ -5,10 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BepInEx;
-using Nick;
-using static Nick.MusicMetaData;
 using NickCustomMusicMod.Utils;
 using System.Threading;
+using UnityEngine.Localization;
 
 namespace NickCustomMusicMod.Management
 {
@@ -18,7 +17,7 @@ namespace NickCustomMusicMod.Management
 
 		public static void Init()
         {
-			songDictionaries = new Dictionary<string, Dictionary<string, MusicItem>>();
+			songDictionaries = new Dictionary<string, Dictionary<string, MusicTrack>>();
 
 			rootCustomSongsPath = Path.Combine(Paths.BepInExRootPath, "CustomSongs");
 
@@ -35,11 +34,10 @@ namespace NickCustomMusicMod.Management
 			LoadFromSongPacks();
 			Plugin.LogInfo("Finished loading song packs!");
 
-
 			Plugin.LogInfo("Generating folders if they don't exist...");
-			foreach (string menuID in Consts.MenuIDs)
+			foreach (string menuName in Consts.MenuIDs.Keys)
 			{
-				Directory.CreateDirectory(Path.Combine(rootCustomSongsPath, Consts.menusFolderName, menuID));
+				Directory.CreateDirectory(Path.Combine(rootCustomSongsPath, Consts.menusFolderName, menuName));
 			}
 
 			foreach (string stageName in Consts.StageIDs.Keys)
@@ -86,16 +84,20 @@ namespace NickCustomMusicMod.Management
 			
 			string path = Path.Combine(rootCustomSongsPath, parentFolderName, folderName);
 
-			Dictionary<string, MusicItem> musicItemDict = new Dictionary<string, MusicItem>();
+			Dictionary<string, MusicTrack> MusicTrackDict = new Dictionary<string, MusicTrack>();
 
 			foreach (string songPath in from x in Directory.GetFiles(path)
 				where x.ToLower().EndsWith(".ogg") || x.ToLower().EndsWith(".wav") || x.ToLower().EndsWith(".mp3")
 				select x)
 				{
-				addMusicItemToDict(musicItemDict, songPath);
+				addMusicTrackToDict(MusicTrackDict, songPath);
 			}
 
-			songDictionaries.Add(constructDictionaryKey(parentFolderName, folderName), musicItemDict);
+			string dictKey = constructDictionaryKey(parentFolderName, folderName);
+
+            Plugin.LogInfo($"Dictionarykey: {dictKey}");
+
+			songDictionaries.Add(dictKey, MusicTrackDict);
 		}
 
 		public static void LoadFromSongPacks() {
@@ -133,16 +135,68 @@ namespace NickCustomMusicMod.Management
 				string musicBankPath = Path.Combine(rootCustomSongsPath, Consts.songPacksFolderName, packName, Consts.musicBankFolderName);
 				string listPath = Path.Combine(folderPath, textFileName);
 
-				Dictionary<string, MusicItem> musicItemDict = songDictionaries[constructDictionaryKey(folderName, Path.GetFileNameWithoutExtension(textFileName))];
+				Dictionary<string, MusicTrack> MusicTrackDict = songDictionaries[constructDictionaryKey(folderName, Path.GetFileNameWithoutExtension(textFileName))];
 
 				foreach (string textLine in File.ReadLines(listPath))
 				{
 					if (textLine.IsNullOrWhiteSpace()) continue;
 
-					addMusicItemToDict(musicItemDict, Path.Combine(musicBankPath, textLine.Trim()));
+					addMusicTrackToDict(MusicTrackDict, Path.Combine(musicBankPath, textLine.Trim()));
 				}
 			}
 		}
+
+		public static MusicTrack GetRandomCustomSong(string id)
+		{
+            // Get a random song for this stage / menu
+            if (songDictionaries.ContainsKey(id))
+            {
+                Dictionary<string, MusicTrack> musicDict = songDictionaries[id];
+                int numCustomSongs = musicDict.Keys.Count;
+
+                if (numCustomSongs > 0)
+                {
+                    int randInt;
+
+                    // Include default songs if value is enabled
+                    // and this is not a victory theme
+                    if (Plugin.Instance.useDefaultSongs.Value && !id.StartsWith(Consts.victoryThemesFolderName))
+                    {
+                        randInt = UnityEngine.Random.Range(0, numCustomSongs + 1);
+                    }
+                    else
+                    {
+                        randInt = UnityEngine.Random.Range(0, numCustomSongs);
+                    }
+
+                    if (randInt >= numCustomSongs)
+                    {
+                        Plugin.LogInfo("Randomly selected default music instead of custom songs!");
+
+                        return null;
+                    }
+                    else
+                    {
+                        string randomSong = musicDict.Keys.ToArray<string>()[randInt];
+                        MusicTrack musicEntry = musicDict[randomSong];
+
+                        // Intercept the ID and use our custom one
+                        Plugin.LogDebug($"Intercepting GetMusic id: {id} and changing to {musicEntry.Id}");
+
+                        return musicEntry;
+                    }
+                }
+                else
+                {
+                    Plugin.LogInfo($"No songs found for {id}! Using default music instead.");
+                }
+            } else
+            {
+                Plugin.LogInfo($"songDictionaries did not contain key: {id}");
+            }
+
+            return null;
+        }
 
 		/// <summary>
 		/// Victory Theme keys need a special prefix, while others may not.
@@ -159,7 +213,7 @@ namespace NickCustomMusicMod.Management
 				return $"{musicType}_{FileHandlingUtils.TranslateFolderNameToID(name)}";
 		}
 
-		private static bool addMusicItemToDict(Dictionary<string, MusicItem> musicItemDict, string songPath)
+		private static bool addMusicTrackToDict(Dictionary<string, MusicTrack> MusicTrackDict, string songPath)
         {
 			if (File.Exists(songPath))
 			{
@@ -167,29 +221,37 @@ namespace NickCustomMusicMod.Management
 
 				string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(songPath);
 
-				MusicItem music = new MusicItem
+                // Fix this to actually have the correct text in it!
+                LocalizedString localizedString = new LocalizedString();
+
+				MusicTrack music = new MusicTrack
 				{
-					id = "CUSTOM_" + fileNameWithoutExtension,
-					originalName = fileNameWithoutExtension,
-					resLocation = songPath
+					Id = "CUSTOM_" + fileNameWithoutExtension,
+					TrackName = localizedString,
+					Path = songPath,
+					//AudioBus;
+					//Volume;
+					//StartTime;
+					//EndTime;
+					//StageAssociated;
 				};
 
-				if (musicItemDict.ContainsKey(music.id))
+				if (MusicTrackDict.ContainsKey(music.Id))
 				{
 					Plugin.LogWarning($"Ignoring \"{songPath}\" because duplicate file was detected! Do you have two different files with the same name for this stage / menu / victory theme?");
 				} else
                 {
-					musicItemDict.Add(music.id, music);
+					MusicTrackDict.Add(music.Id, music);
 					return true;
 				}
 			} else
             {
-				Plugin.LogWarning($"addMusicItemToDict failed because file doesn't exist! \"{songPath}\"");
+				Plugin.LogWarning($"addMusicTrackToDict failed because file doesn't exist! \"{songPath}\"");
             }
 			return false;
 		}
 
-		internal static Dictionary<string, Dictionary<string, MusicItem>> songDictionaries;
+		internal static Dictionary<string, Dictionary<string, MusicTrack>> songDictionaries;
 	}
 
 }
