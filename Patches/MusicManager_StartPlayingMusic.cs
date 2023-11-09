@@ -42,7 +42,7 @@ namespace NASB2CustomMusicMod.Patches
                         __instance.StartCoroutine(__instance.StartFade(musicSource, 0.5f, originalVolumeList[i]));
                     }
 
-                    Plugin.LogInfo("Playing music from clip:" + musicSource.clip.name);
+                    //Plugin.LogInfo("Playing music from clip:" + musicSource.clip.name);
                 }
             }
 

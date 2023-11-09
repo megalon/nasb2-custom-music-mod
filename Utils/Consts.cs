@@ -71,6 +71,8 @@ namespace NickCustomMusicMod.Utils
 
         public static readonly Dictionary<string, string> MenuIDs = new Dictionary<string, string> {
             { "MainMenu", "mx_maintheme" },
+            { "OnlineMenu", "mx_onlinemenu" },
+            { "Versus", "mx_vs_loading" },
         };
 
         public static readonly string[] NASB1MenuIDs = {

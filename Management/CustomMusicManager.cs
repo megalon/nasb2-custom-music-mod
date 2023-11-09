@@ -30,9 +30,10 @@ namespace NickCustomMusicMod.Management
 			LoadFromSubDirectories(Consts.victoryThemesFolderName);
 			Plugin.LogInfo("Finished loading songs from subfolders!");
 
-			Plugin.LogInfo("Loading song packs...");
-			LoadFromSongPacks();
-			Plugin.LogInfo("Finished loading song packs!");
+            // TODO fix song packs!
+			//Plugin.LogInfo("Loading song packs...");
+			//LoadFromSongPacks();
+			//Plugin.LogInfo("Finished loading song packs!");
 
 			Plugin.LogInfo("Generating folders if they don't exist...");
 			foreach (string menuName in Consts.MenuIDs.Keys)
@@ -45,12 +46,15 @@ namespace NickCustomMusicMod.Management
 				Directory.CreateDirectory(Path.Combine(rootCustomSongsPath, Consts.stagesFolderName, stageName));
 			}
 
-			foreach (string characterName in Consts.CharacterIDs.Keys)
-			{
-				Directory.CreateDirectory(Path.Combine(rootCustomSongsPath, Consts.victoryThemesFolderName, characterName));
-			}
+			// TODO fix character themes!
+			// Don't generate the character IDs yet
+			//foreach (string characterName in Consts.CharacterIDs.Keys)
+			//{
+			//	Directory.CreateDirectory(Path.Combine(rootCustomSongsPath, Consts.victoryThemesFolderName, characterName));
+			//}
 
-			Directory.CreateDirectory(Path.Combine(rootCustomSongsPath, Consts.songPacksFolderName));
+			// TODO generate song pack folder!
+			//Directory.CreateDirectory(Path.Combine(rootCustomSongsPath, Consts.songPacksFolderName));
 			Plugin.LogInfo("Finished generating folders!");
 		}
 
