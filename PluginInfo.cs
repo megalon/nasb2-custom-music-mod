@@ -6,8 +6,8 @@ namespace NickCustomMusicMod
 {
     class PluginInfo
     {
-        public const string PLUGIN_GUID = "megalon.nick_custom_music_mod";
-        public const string PLUGIN_NAME = "NickCustomMusicMod";
-        public const string PLUGIN_VERSION = "1.6.0";
+        public const string PLUGIN_GUID = "megalon.nasb2_custom_music_mod";
+        public const string PLUGIN_NAME = "NASB2CustomMusicMod";
+        public const string PLUGIN_VERSION = "0.1.0";
     }
 }
