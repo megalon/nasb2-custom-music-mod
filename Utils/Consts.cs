@@ -27,7 +27,7 @@ namespace NickCustomMusicMod.Utils
             { "Rooftop Rumble", "mx_rooftoprumble" },
             { "Technodrome Takedown", "mx_technodrometakedown" },
             { "Hardcore Chores", "mx_hardcorechores" },
-            { "Food Dream", "mx_fooddream " },
+            { "Food Dream", "mx_fooddream" },
             { "Jimmys Lab", "mx_jimmyslab" },
             { "Messy Kitchen", "mx_messykitchen" },
             { "Wild Savannah", "mx_wildsavannah" },
