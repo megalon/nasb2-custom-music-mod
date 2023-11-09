@@ -15,11 +15,38 @@ namespace NickCustomMusicMod.Utils
 		public static readonly string musicBankFolderName = "_Music Bank";
 
         public static readonly Dictionary<string, string> StageIDs = new Dictionary<string,string> {
+            { "Jellyfish Fields", "mx_jellyfishfields" } ,
+            { "Flying Dutchmans Ship", "mx_theflyingdutchmansship" },
+            { "Chum Bucket", "mx_thechumbucket"},
+            { "Bun Wrestling Ring", "mx_bunwrestlingring"},
+            { "Harmonic Convergence", "mx_harmonicconvergence" },
+            { "Western Air Temple", "mx_westernairtemple" },
+            { "Fire Masters Meeting", "mx_firemastersmeeting" },
+            { "Irken Armada Invasion", "mx_irkenarmadainvasion" },
+            { "Sewers Slam", "mx_sewersslam" },
+            { "Rooftop Rumble", "mx_rooftoprumble" },
+            { "Technodrome Takedown", "mx_technodrometakedown" },
+            { "Hardcore Chores", "mx_hardcorechores" },
+            { "Food Dream", "mx_fooddream " },
+            { "Jimmys Lab", "mx_jimmyslab" },
+            { "Messy Kitchen", "mx_messykitchen" },
+            { "Wild Savannah", "mx_wildsavannah" },
+            { "Loud Castle", "mx_loudcastle" },
+            { "Royal Woods Cemetary", "mx_royalwoodscemetery" },
+            { "Miracle City Volcano", "mx_miraclecityvolcano" },
+            { "Angry Beavers Dam", "mx_angrybeaversdam" },
+            { "Pariahs Keep", "mx_pariahskeep" },
+            { "Clockworks Lair", "mx_clockworkslair" },
+            { "Reptars Ruins", "mx_reptarsruins" },
+            { "City Aquarium", "mx_cityaquarium" },
+            { "Tremorton Joyride", "mx_tremortonjoyride" },
+            { "Training", "mx_trainingstage" }
+        };
+
+        public static readonly Dictionary<string, string> NASB1StageIDs = new Dictionary<string, string> {
             { "CatDogs House", "House" },
-            { "Duck Duck Pie", "RocketFantasy" },
             { "Ghost Zone", "Zone" },
             { "Glove World", "CarnivalLofi" },
-            { "Hardcore Chores", "SquirrelStage" },
             { "Harmonic Convergence", "SpiritWorld" },
             { "Irken Armada Invasion", "Armada" },
             { "Jellyfish Fields", "SlideHouse" },
@@ -42,7 +69,11 @@ namespace NickCustomMusicMod.Utils
             { "Wild Waterfall", "Waterfall" }
         };
 
-        public static readonly string[] MenuIDs = { 
+        public static readonly Dictionary<string, string> MenuIDs = new Dictionary<string, string> {
+            { "MainMenu", "mx_maintheme" },
+        };
+
+        public static readonly string[] NASB1MenuIDs = {
             "MainMenu",
             "Versus",
             "OnlineMenu",
