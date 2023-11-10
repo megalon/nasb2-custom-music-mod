@@ -21,7 +21,7 @@ namespace NASB2CustomMusicMod.Patches
                 environmentSource.Play();
             }
 
-            __instance.StartPlayingMusic();
+            MusicManager_StartPlayingMusic.PlayMusic(__instance, false);
 
             return false;
         }

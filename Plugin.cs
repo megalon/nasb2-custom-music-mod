@@ -13,6 +13,7 @@ namespace NickCustomMusicMod
     {
         internal static Plugin Instance;
         internal static string previousMusicID;
+        internal static bool playingCustomSong;
         internal ConfigEntry<bool> useDefaultSongs;
         internal ConfigEntry<bool> skipOnlineMenuMusicIfEmpty;
         private void Awake()
