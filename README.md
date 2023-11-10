@@ -50,7 +50,7 @@ The mod will randomly select a song to play each time that stage / menu / victor
 
 ### "Can I include the default songs in the random selection?"
 
-Yes. You must enable the option in the config file. See *Configuration* above.
+Yes. You must enable the option in the config file. The config file is generated the first time you run the mod and is in `BepInEx/config/megalon.nasb2_custom_music_mod.cfg`
 
 ## 🔧 Developing
 
