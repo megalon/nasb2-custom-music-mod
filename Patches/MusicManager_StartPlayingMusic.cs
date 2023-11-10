@@ -42,7 +42,13 @@ namespace NASB2CustomMusicMod.Patches
 
                 MusicTrack customTrack = CustomMusicManager.GetRandomCustomSong(id);
 
-                if (customTrack == null) continue;
+                if (customTrack == null)
+                {
+                    Plugin.playingCustomSong = false;
+                    continue;
+                }
+
+                Plugin.playingCustomSong = true;
 
                 __instance.StartCoroutine(SongLoader.LoadCustomSong(customTrack, musicSource));
 
