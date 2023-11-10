@@ -7,6 +7,8 @@ using UnityEngine;
 using NickCustomMusicMod.Utils;
 using SMU.Reflection;
 using NickCustomMusicMod;
+using NASB2CustomMusicMod.Utils;
+using NickCustomMusicMod.Management;
 
 namespace NASB2CustomMusicMod.Patches
 {
@@ -30,6 +32,23 @@ namespace NASB2CustomMusicMod.Patches
             {
                 AudioSource musicSource = musicSources[i];
 
+
+                // ---- Intercept and pick custom song ----
+
+                string id = musicSource.clip.name;
+                Plugin.LogInfo($"MusicManager: {__instance.name} | MusicSources[{i}]: {id}");
+
+                //if (CheckToSkipOnlineMenuMusic(ref id)) return false;
+
+                MusicTrack customTrack = CustomMusicManager.GetRandomCustomSong(id);
+
+                if (customTrack == null) continue;
+
+                __instance.StartCoroutine(SongLoader.LoadCustomSong(customTrack, musicSource));
+
+                // ----
+
+
                 if (musicSource.isActiveAndEnabled && !musicSource.isPlaying)
                 {
                     musicSource.mute = false;
@@ -42,7 +61,7 @@ namespace NASB2CustomMusicMod.Patches
                         __instance.StartCoroutine(__instance.StartFade(musicSource, 0.5f, originalVolumeList[i]));
                     }
 
-                    //Plugin.LogInfo("Playing music from clip:" + musicSource.clip.name);
+                    Plugin.LogInfo("Playing music from clip:" + musicSource.clip.name);
                 }
             }
 
