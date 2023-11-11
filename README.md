@@ -1,17 +1,29 @@
 ## ⚠️ This project is a work in progress ⚠️
 
-# NASB Custom Music Mod
+# NASB2 Custom Music Mod
 
-This mod allows you to add custom songs to each stage and menu in the game!
+This mod allows you to add custom songs to the stages, menus, and victory themes in the game!
 _____
 
 ## 🚀 Installation
 
-This project requires [SlimeModdingUtilities](https://github.com/DeadlyKitten/SlimeModdingUtilities)
+Requirements:
+
+- BepInEx 5
+- Unstripped core Unity library (explained below)
+- [SlimeModdingUtilities](https://github.com/DeadlyKitten/SlimeModdingUtilities)
+
+Unstripped Core Library:
+
+NASB2 ships without all of the dlls that typically ship with Unity games. For BepInEx to work, you need the "unstripped core Unity library". This can be found included in the BepInEx version in the NASB discord as `unstripped_corlib`.
+
+If BepInEx doesn't load, check that your `doorstop_config.ini` points to the unstripped core library folder. Something like this:
+
+```
+dllSearchPathOverride=unstripped_corlib
+```
 
 ## ℹ Usage
-
-For basic usage see the simple format shown below.
 
 ### Folder structure
 ```
@@ -25,13 +37,17 @@ BepInEx
             ↳ Angry Beavers Dam
             ↳ Bun Wrestling Ring
               ...
+        ↳ Victory Themes
+            ↳ Aang
+            ↳ AngryBeavers
+              ...
 ```
 
 Place `.wav`, `.ogg`, or `.mp3` files into the folder corresponding to the stage or menu you want to change.
 
 For example, if you want to use a different song for the Jellyfish Fields stage, place the audio file in `BepInEx\CustomSongs\Stages\Jellyfish Fields`
 
-If multiple audio files are in the same folder, one is randomly selected each time that stage / menu is loaded!
+If multiple audio files are in the same folder, one is randomly selected each time that stage / menu / victory theme is loaded!
 
 ## ❔ FAQ
 
@@ -54,7 +70,7 @@ Yes. You must enable the option in the config file. The config file is generated
 
 ## 🔧 Developing
 
-This project requires [SlimeModdingUtilities](https://github.com/DeadlyKitten/SlimeModdingUtilities)
+Make sure you have all of the required files from the [installation section](https://github.com/megalon/nasb2-custom-music-mod#-installation)
 
 ### Setup
 
@@ -69,7 +85,7 @@ Example:
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
   <PropertyGroup>
-    <GameDir>D:\SteamLibrary\steamapps\common\Nickelodeon All-Star Brawl</GameDir>
+    <GameDir>D:\SteamLibrary\steamapps\common\Nickelodeon All-Star Brawl 2</GameDir>
   </PropertyGroup>
 </Project>
 ```
