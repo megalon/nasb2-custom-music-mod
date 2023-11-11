@@ -28,9 +28,18 @@ namespace NASB2CustomMusicMod.Patches
                 CharacterManager winningCharacterManager = matchManager.CurrentCharacterManagers[winningCharIndex];
 
                 // Get the name of the winning character
-                string winnerName = Enum.GetName(typeof(CharacterCodename), winningCharacterManager.Codename);
+                string winnerName;
 
-                Plugin.LogInfo($"The winner is: {winnerName}");
+                // Special case for AngryBeavers, because they are technically different characters, although Dagget always seems to be the "winner"
+                if (winningCharacterManager.Codename == CharacterCodename.Dagget || winningCharacterManager.Codename == CharacterCodename.Norbert)
+                {
+                    winnerName = "AngryBeavers";
+                } else
+                {
+                    winnerName = Enum.GetName(typeof(CharacterCodename), winningCharacterManager.Codename);
+                }
+
+                Plugin.LogInfo($"The winner is: {winnerName}!");
 
                 // This feels hacky, but just set the clip name to the dictionary key
                 // so we can reuse the patched MusicManager.StartPlayingMusic when this plays
