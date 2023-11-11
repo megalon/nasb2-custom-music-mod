@@ -12,10 +12,6 @@ namespace NickCustomMusicMod.Utils
 			if (Consts.StageIDs.ContainsKey(folderName))
 			{
 				return Consts.StageIDs[folderName];
-			}
-			else if (Consts.CharacterIDs.ContainsKey(folderName))
-			{
-				return Consts.CharacterIDs[folderName];
 			} else if (Consts.MenuIDs.ContainsKey(folderName))
 			{
                 return Consts.MenuIDs[folderName];
@@ -28,7 +24,6 @@ namespace NickCustomMusicMod.Utils
 			var folderName = Path.GetFileName(folderPath);
 
 			if (Consts.StageIDs.ContainsValue(folderName)) ConvertIdToDictName(folderPath, Consts.StageIDs);
-			if (Consts.CharacterIDs.ContainsValue(folderName)) ConvertIdToDictName(folderPath, Consts.CharacterIDs);
 
 			// Fix old typo
 			if (folderName.Equals("Technodrom Takedown")) RenameFolder(folderPath, "Technodrome Takedown");
