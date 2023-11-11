@@ -55,6 +55,9 @@
     <Reference Include="Unity.ResourceManager">
       <HintPath>$(GameDir)\Nickelodeon All-Star Brawl 2_Data\Managed\Unity.ResourceManager.dll</HintPath>
     </Reference>
+    <Reference Include="quantum.code">
+      <HintPath>$(GameDir)\Nickelodeon All-Star Brawl 2_Data\Managed\quantum.code.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
