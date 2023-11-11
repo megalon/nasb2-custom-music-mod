@@ -46,12 +46,10 @@ namespace NickCustomMusicMod.Management
 				Directory.CreateDirectory(Path.Combine(rootCustomSongsPath, Consts.stagesFolderName, stageName));
 			}
 
-			// TODO fix character themes!
-			// Don't generate the character IDs yet
-			//foreach (string characterName in Consts.CharacterIDs.Keys)
-			//{
-			//	Directory.CreateDirectory(Path.Combine(rootCustomSongsPath, Consts.victoryThemesFolderName, characterName));
-			//}
+			foreach (string characterName in Consts.CharacterFolderNames)
+			{
+				Directory.CreateDirectory(Path.Combine(rootCustomSongsPath, Consts.victoryThemesFolderName, characterName));
+			}
 
 			// TODO generate song pack folder!
 			//Directory.CreateDirectory(Path.Combine(rootCustomSongsPath, Consts.songPacksFolderName));
@@ -203,8 +201,8 @@ namespace NickCustomMusicMod.Management
         }
 
 		/// <summary>
-		/// Victory Theme keys need a special prefix, while others may not.
-		/// This function constructs the correct key for each song type.
+		/// This is a holdover from the odd way that NASB1 handled dict keys
+		/// It still works for now!
 		/// </summary>
 		/// <param name="musicType">Likely the parent folder name. "Menu", "Stage", "Victory Themes", etc. </param>
 		/// <param name="name">Name of this Menu / Stage / Character</param>

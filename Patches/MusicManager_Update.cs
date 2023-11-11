@@ -19,7 +19,7 @@ namespace NASB2CustomMusicMod.Patches
          */
         static bool Prefix(MusicManager __instance)
         {
-            if (__instance.EndTime == 0f || __instance.MusicSources.Length <= 0)
+            if (__instance.MusicSources.Length <= 0 || (__instance.EndTime == 0f && !Plugin.playingCustomSong))
             {
                 return false;
             }
@@ -48,10 +48,12 @@ namespace NASB2CustomMusicMod.Patches
 
                     if (musicSource.isActiveAndEnabled)
                     {
+                        Plugin.LogInfo("MusicManager_Update: Playing song!");
                         musicSource.Play();
                     }
                 }
             }
+
             return false;
         }
     }

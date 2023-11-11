@@ -38,6 +38,9 @@ namespace NASB2CustomMusicMod.Utils
                     yield break;
             }
 
+
+            Plugin.LogInfo("Loading song " + track.Path);
+
             UnityWebRequest audioLoader = UnityWebRequestMultimedia.GetAudioClip(track.Path, audioType);
             // this stops the lag!
             (audioLoader.downloadHandler as DownloadHandlerAudioClip).streamAudio = true;
@@ -48,12 +51,12 @@ namespace NASB2CustomMusicMod.Utils
                 yield break;
             }
 
-            musicSource.clip.name = track.Path;
             musicSource.clip = DownloadHandlerAudioClip.GetContent(audioLoader);
+
+            Plugin.LogInfo("Finished loading song!");
 
             musicSource.time = 0f;
 
-            Plugin.LogInfo("musicSource.time:" + musicSource.time);
             //musicSource.volume = 1;
 
             // !!!!!! TODO !!!!!!
