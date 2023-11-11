@@ -30,7 +30,7 @@ namespace NASB2CustomMusicMod.Patches
                 // Get the name of the winning character
                 string winnerName = Enum.GetName(typeof(CharacterCodename), winningCharacterManager.Codename);
 
-                Plugin.LogWarning($"The winner is: {winnerName}");
+                Plugin.LogInfo($"The winner is: {winnerName}");
 
                 // This feels hacky, but just set the clip name to the dictionary key
                 // so we can reuse the patched MusicManager.StartPlayingMusic when this plays
