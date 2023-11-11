@@ -111,7 +111,7 @@ namespace NickCustomMusicMod.Utils
             "Nigel",
             "Rocko",
             "Gerald",
-            "GrandmaGerti",
+            "GrandmaGertie",
             "ElTigre",
             "AngryBeavers",
             "Jenny"
