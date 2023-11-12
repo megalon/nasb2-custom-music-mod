@@ -7,21 +7,27 @@ _____
 
 ## 🚀 Installation
 
-Requirements:
+### First Time Install
 
-- BepInEx 5
-- Unstripped core Unity library (explained below)
-- [SlimeModdingUtilities](https://github.com/DeadlyKitten/SlimeModdingUtilities)
+1. Get the BepInEx zip pinned in the NASB discord #modding channel. It has BepInEx 5 and the unstripped Unity libraries.
+1. Extract the BepInEx zip into your game's install directory
+1. Download the [latest release zip](https://github.com/megalon/nasb2-custom-music-mod/releases/latest) such as `NASB2CustomMusicMod-9.9.9.zip`
+1. Extract this zip into your BepInEx folder, and the mod should be installed!
 
-Unstripped Core Library:
-
-NASB2 ships without all of the dlls that typically ship with Unity games. For BepInEx to work, you need the "unstripped core Unity library". This can be found included in the BepInEx version in the NASB discord as `unstripped_corlib`.
-
-If BepInEx doesn't load, check that your `doorstop_config.ini` points to the unstripped core library folder. Something like this:
-
+Your BepInEx folder should now have a `CustomSongs` folder, and you should have the plugins in your `plugins` folder
 ```
-dllSearchPathOverride=unstripped_corlib
+BepInEx
+    ↳ CustomSongs
+    ↳ plugins
+        ↳ Steven-Slime_Modding_Utilities
+        NASB2CustomMusicMod.dll
+        ...
+    ...
 ```
+
+### Updating
+
+If you're updating from a previous version, just extract the latest release zip into your `BepInEx` folder like before, and let it overwrite any files. Any custom songs should be preserved.
 
 ## ℹ Usage
 
@@ -71,6 +77,22 @@ Yes. You must enable the option in the config file. The config file is generated
 ## 🔧 Developing
 
 Make sure you have all of the required files from the [installation section](https://github.com/megalon/nasb2-custom-music-mod#-installation)
+
+But to clarify, you need:
+
+- BepInEx 5
+- Unstripped core Unity library (explained below)
+- [SlimeModdingUtilities](https://github.com/DeadlyKitten/SlimeModdingUtilities)
+
+Unstripped Core Library:
+
+NASB2 ships without all of the dlls that typically ship with Unity games. For BepInEx to work, you need the "unstripped core Unity library". This can be found included in the BepInEx version in the NASB discord as `unstripped_corlib`.
+
+If BepInEx doesn't load, check that your `doorstop_config.ini` points to the unstripped core library folder. Something like this:
+
+```
+dllSearchPathOverride=unstripped_corlib
+```
 
 ### Setup
 
