@@ -10,6 +10,7 @@ using NickCustomMusicMod;
 using NASB2CustomMusicMod.Utils;
 using NickCustomMusicMod.Management;
 using UnityEngine.UI;
+using NASB2CustomMusicMod.Management;
 
 namespace NASB2CustomMusicMod.Patches
 {
@@ -47,15 +48,16 @@ namespace NASB2CustomMusicMod.Patches
 
                 //if (CheckToSkipOnlineMenuMusic(ref id)) return false;
 
-                MusicTrack customTrack = CustomMusicManager.GetRandomCustomSong(id);
+                Plugin.customTrack = null;
+                Plugin.customTrack = CustomMusicManager.GetRandomCustomSong(id);
 
-                if (customTrack == null)
+                if (Plugin.customTrack == null)
                 {
                     Plugin.playingCustomSong = false;
                 } else
                 {
                     Plugin.playingCustomSong = true;
-                    __instance.StartCoroutine(SongLoader.LoadCustomSong(customTrack, musicSource));
+                    __instance.StartCoroutine(SongLoader.LoadCustomSong(Plugin.customTrack, musicSource));
                 }
 
                 // ----

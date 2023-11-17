@@ -8,6 +8,7 @@ using BepInEx;
 using NickCustomMusicMod.Utils;
 using System.Threading;
 using UnityEngine.Localization;
+using NASB2CustomMusicMod.Management;
 
 namespace NickCustomMusicMod.Management
 {
@@ -17,7 +18,7 @@ namespace NickCustomMusicMod.Management
 
 		public static void Init()
         {
-			songDictionaries = new Dictionary<string, Dictionary<string, MusicTrack>>();
+			songDictionaries = new Dictionary<string, Dictionary<string, CustomMusicTrack>>();
 
 			rootCustomSongsPath = Path.Combine(Paths.BepInExRootPath, "CustomSongs");
 
@@ -86,7 +87,7 @@ namespace NickCustomMusicMod.Management
 			
 			string path = Path.Combine(rootCustomSongsPath, parentFolderName, folderName);
 
-			Dictionary<string, MusicTrack> MusicTrackDict = new Dictionary<string, MusicTrack>();
+			Dictionary<string, CustomMusicTrack> MusicTrackDict = new Dictionary<string, CustomMusicTrack>();
 
 			foreach (string songPath in from x in Directory.GetFiles(path)
 				where x.ToLower().EndsWith(".ogg") || x.ToLower().EndsWith(".wav") || x.ToLower().EndsWith(".mp3")
@@ -137,7 +138,7 @@ namespace NickCustomMusicMod.Management
 				string musicBankPath = Path.Combine(rootCustomSongsPath, Consts.songPacksFolderName, packName, Consts.musicBankFolderName);
 				string listPath = Path.Combine(folderPath, textFileName);
 
-				Dictionary<string, MusicTrack> MusicTrackDict = songDictionaries[constructDictionaryKey(folderName, Path.GetFileNameWithoutExtension(textFileName))];
+				Dictionary<string, CustomMusicTrack> MusicTrackDict = songDictionaries[constructDictionaryKey(folderName, Path.GetFileNameWithoutExtension(textFileName))];
 
 				foreach (string textLine in File.ReadLines(listPath))
 				{
@@ -148,12 +149,12 @@ namespace NickCustomMusicMod.Management
 			}
 		}
 
-		public static MusicTrack GetRandomCustomSong(string id)
+		public static CustomMusicTrack GetRandomCustomSong(string id)
 		{
             // Get a random song for this stage / menu
             if (songDictionaries.ContainsKey(id))
             {
-                Dictionary<string, MusicTrack> musicDict = songDictionaries[id];
+                Dictionary<string, CustomMusicTrack> musicDict = songDictionaries[id];
                 int numCustomSongs = musicDict.Keys.Count;
 
                 if (numCustomSongs > 0)
@@ -180,7 +181,7 @@ namespace NickCustomMusicMod.Management
                     else
                     {
                         string randomSong = musicDict.Keys.ToArray<string>()[randInt];
-                        MusicTrack musicEntry = musicDict[randomSong];
+                        CustomMusicTrack musicEntry = musicDict[randomSong];
 
                         // Intercept the ID and use our custom one
                         Plugin.LogDebug($"Intercepting GetMusic id: {id} and changing to {musicEntry.Id}");
@@ -215,7 +216,7 @@ namespace NickCustomMusicMod.Management
 				return $"{musicType}_{FileHandlingUtils.TranslateFolderNameToID(name)}";
 		}
 
-		private static bool addMusicTrackToDict(Dictionary<string, MusicTrack> MusicTrackDict, string songPath)
+		private static bool addMusicTrackToDict(Dictionary<string, CustomMusicTrack> MusicTrackDict, string songPath)
         {
 			if (File.Exists(songPath))
 			{
@@ -226,8 +227,8 @@ namespace NickCustomMusicMod.Management
                 // Fix this to actually have the correct text in it!
                 LocalizedString localizedString = new LocalizedString();
 
-				MusicTrack music = new MusicTrack
-				{
+                CustomMusicTrack music = new CustomMusicTrack
+                {
 					Id = "CUSTOM_" + fileNameWithoutExtension,
 					TrackName = localizedString,
 					Path = songPath,
@@ -253,7 +254,7 @@ namespace NickCustomMusicMod.Management
 			return false;
 		}
 
-		internal static Dictionary<string, Dictionary<string, MusicTrack>> songDictionaries;
+		internal static Dictionary<string, Dictionary<string, CustomMusicTrack>> songDictionaries;
 	}
 
 }

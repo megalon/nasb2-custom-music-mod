@@ -5,8 +5,10 @@ using System.Text;
 namespace NickCustomMusicMod.Data
 {
     class CustomMusicData
-	{
-		public float loopStartPointSec;
-		public float loopEndPointSec;
-	}
+    {
+        public float loopStartPointSec;
+        public float loopEndPointSec;
+        public int loopStartPointSamples;
+        public int loopEndPointSamples;
+    }
 }

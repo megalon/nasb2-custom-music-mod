@@ -5,6 +5,7 @@ using System;
 using System.Reflection;
 using NickCustomMusicMod.Management;
 using BepInEx.Configuration;
+using NASB2CustomMusicMod.Management;
 
 namespace NickCustomMusicMod
 {
@@ -14,6 +15,7 @@ namespace NickCustomMusicMod
         internal static Plugin Instance;
         internal static string previousMusicID;
         internal static bool playingCustomSong;
+        internal static CustomMusicTrack customTrack;
         internal ConfigEntry<bool> useDefaultSongs;
         internal ConfigEntry<bool> skipOnlineMenuMusicIfEmpty;
         private void Awake()
