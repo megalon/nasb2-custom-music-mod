@@ -93,10 +93,18 @@ namespace NASB2CustomMusicMod.Utils
                     customMusicData.loopStartPointSec = Mathf.Clamp(customMusicData.loopStartPointSec, 0, musicSource.clip.length);
                     customMusicData.loopEndPointSec = Mathf.Clamp(customMusicData.loopEndPointSec, 0, musicSource.clip.length);
 
-                    customMusicData.loopPoints = new CustomLoopPoints(
-                        Mathf.Clamp(customMusicData.loopPoints.Start, 0, musicSource.clip.samples),
-                        Mathf.Clamp(customMusicData.loopPoints.End, 0, musicSource.clip.samples)
-                    );
+                    if (customMusicData.loopPoints == null) {
+                        // This is supposed to default when it's null on deserialization,
+                        // but that doesn't seem to work so we have to do this
+                        customMusicData.loopPoints = new CustomLoopPoints();
+                    } else
+                    {
+                        customMusicData.loopPoints = new CustomLoopPoints(
+                            Mathf.Clamp(customMusicData.loopPoints.Start, 0, musicSource.clip.samples),
+                            Mathf.Clamp(customMusicData.loopPoints.End, 0, musicSource.clip.samples)
+                        );
+                    }
+
 
                     Plugin.LogInfo($"customMusicData: {customMusicData.loopStartPointSec}, {customMusicData.loopEndPointSec}");
 
