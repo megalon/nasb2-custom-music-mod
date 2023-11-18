@@ -8,6 +8,6 @@ namespace NickCustomMusicMod
     {
         public const string PLUGIN_GUID = "megalon.nasb2_custom_music_mod";
         public const string PLUGIN_NAME = "NASB2CustomMusicMod";
-        public const string PLUGIN_VERSION = "0.3.1";
+        public const string PLUGIN_VERSION = "0.4.0";
     }
 }
