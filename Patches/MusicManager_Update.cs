@@ -58,8 +58,11 @@ namespace NASB2CustomMusicMod.Patches
                     }
                 }
             }
-
+                
             // Loop
+
+            if (Plugin.customTrack == null) return false;
+
             if (Plugin.customTrack.LoopPoints != null && Plugin.customTrack.LoopPoints.Start >= 0 && Plugin.customTrack.LoopPoints.End > 0)
             {
                 if (firstMusicSource.timeSamples >= Plugin.customTrack.LoopPoints.End)
@@ -67,7 +70,8 @@ namespace NASB2CustomMusicMod.Patches
                     Plugin.LogWarning($"Looping! firstMusicSource.timeSamples: {firstMusicSource.timeSamples} | Loop points: {Plugin.customTrack.LoopPoints.Start}, {Plugin.customTrack.LoopPoints.End}");
                     firstMusicSource.timeSamples -= (Plugin.customTrack.LoopPoints.End - Plugin.customTrack.LoopPoints.Start);
                 }
-            } else if (Plugin.customTrack.LoopStartPointSec >= 0 && Plugin.customTrack.LoopEndPointSec > 0)
+            }
+            else if (Plugin.customTrack.LoopStartPointSec >= 0 && Plugin.customTrack.LoopEndPointSec > 0)
             {
                 if (firstMusicSource.time >= Plugin.customTrack.LoopEndPointSec)
                 {
