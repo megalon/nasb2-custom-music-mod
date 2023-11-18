@@ -9,6 +9,6 @@ namespace NASB2CustomMusicMod.Management
     {
         public float LoopStartPointSec;
         public float LoopEndPointSec;
-        public CustomLoopPoints LoopPointsSamples;
+        public CustomLoopPoints LoopPoints;
     }
 }

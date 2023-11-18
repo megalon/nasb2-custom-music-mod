@@ -76,7 +76,7 @@ namespace NASB2CustomMusicMod.Utils
 
             entry.LoopStartPointSec = -1;
             entry.LoopEndPointSec = -1;
-            entry.LoopPointsSamples = null;
+            entry.LoopPoints = null;
 
             // Get loop points from json file here
             string jsonPath = Path.Combine(Path.GetDirectoryName(entry.Path), Path.GetFileNameWithoutExtension(entry.Path) + ".json");
@@ -86,21 +86,23 @@ namespace NASB2CustomMusicMod.Utils
                 {
                     string jsonFile = File.ReadAllText(jsonPath);
 
+                    Plugin.LogDebug(jsonFile);
+
                     var customMusicData = JsonConvert.DeserializeObject<CustomMusicData>(jsonFile, null);
 
                     customMusicData.loopStartPointSec = Mathf.Clamp(customMusicData.loopStartPointSec, 0, musicSource.clip.length);
                     customMusicData.loopEndPointSec = Mathf.Clamp(customMusicData.loopEndPointSec, 0, musicSource.clip.length);
-                    customMusicData.loopPointsSamples = new CustomLoopPoints(
-                        Mathf.Clamp(customMusicData.loopPointsSamples.Start, 0, musicSource.clip.samples),
-                        Mathf.Clamp(customMusicData.loopPointsSamples.End, 0, musicSource.clip.samples)
+                    customMusicData.loopPoints = new CustomLoopPoints(
+                        Mathf.Clamp(customMusicData.loopPoints.Start, 0, musicSource.clip.samples),
+                        Mathf.Clamp(customMusicData.loopPoints.End, 0, musicSource.clip.samples)
                     );
 
                     Plugin.LogInfo($"customMusicData: {customMusicData.loopStartPointSec}, {customMusicData.loopEndPointSec}");
 
                     LogMessage_DataIsZero(customMusicData.loopStartPointSec, "customMusicData.loopStartPointSec", jsonPath);
                     LogMessage_DataIsZero(customMusicData.loopEndPointSec, "customMusicData.loopEndPointSec", jsonPath);
-                    LogMessage_DataIsZero(customMusicData.loopPointsSamples.Start, "customMusicData.loopPointsSamples.StartPoint", jsonPath);
-                    LogMessage_DataIsZero(customMusicData.loopPointsSamples.End, "customMusicData.loopPointsSamples.EndPoint", jsonPath);
+                    LogMessage_DataIsZero(customMusicData.loopPoints.Start, "customMusicData.loopPointsSamples.StartPoint", jsonPath);
+                    LogMessage_DataIsZero(customMusicData.loopPoints.End, "customMusicData.loopPointsSamples.EndPoint", jsonPath);
 
                     if (customMusicData.loopEndPointSec == 0 && customMusicData.loopStartPointSec > 0)
                     {
@@ -108,10 +110,10 @@ namespace NASB2CustomMusicMod.Utils
                         customMusicData.loopEndPointSec = musicSource.clip.length;
                     }
 
-                    if (customMusicData.loopPointsSamples.End == 0 && customMusicData.loopPointsSamples.Start > 0)
+                    if (customMusicData.loopPoints.End == 0 && customMusicData.loopPoints.Start > 0)
                     {
                         Plugin.LogWarning($"\"loopPointsSamples\" start is greater than 0, but \"loopPointsSamples\" end is 0! Setting end to length of song for \"{jsonPath}\"");
-                        customMusicData.loopPointsSamples = new CustomLoopPoints(customMusicData.loopPointsSamples.Start, musicSource.clip.samples);
+                        customMusicData.loopPoints = new CustomLoopPoints(customMusicData.loopPoints.Start, musicSource.clip.samples);
                     }
 
                     if (customMusicData.loopEndPointSec > 0 && customMusicData.loopStartPointSec > 0 && customMusicData.loopStartPointSec == customMusicData.loopEndPointSec)
@@ -119,14 +121,14 @@ namespace NASB2CustomMusicMod.Utils
                         Plugin.LogWarning($"\"loopStartPointSec\" and \"loopEndPointSec\" are the same value for \"{jsonPath}\"! Did you mean to do that?");
                     }
 
-                    if (customMusicData.loopPointsSamples.End > 0 && customMusicData.loopPointsSamples.Start > 0 && customMusicData.loopPointsSamples.Start == customMusicData.loopPointsSamples.End)
+                    if (customMusicData.loopPoints.End > 0 && customMusicData.loopPoints.Start > 0 && customMusicData.loopPoints.Start == customMusicData.loopPoints.End)
                     {
                         Plugin.LogWarning($"\"loopPointsSamples\" start and end points are the same value for \"{jsonPath}\"! Did you mean to do that?");
                     }
 
                     entry.LoopStartPointSec = customMusicData.loopStartPointSec;
                     entry.LoopEndPointSec = customMusicData.loopEndPointSec;
-                    entry.LoopPointsSamples = customMusicData.loopPointsSamples;
+                    entry.LoopPoints = customMusicData.loopPoints;
                 }
                 catch (Exception e)
                 {

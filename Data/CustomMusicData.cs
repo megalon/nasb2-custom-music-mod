@@ -9,7 +9,7 @@ namespace NickCustomMusicMod.Data
     {
         public float loopStartPointSec;
         public float loopEndPointSec;
-        public CustomLoopPoints loopPointsSamples;
+        public CustomLoopPoints loopPoints;
     }
 
     class CustomLoopPoints
