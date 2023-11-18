@@ -1,7 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace NickCustomMusicMod.Data
 {
@@ -20,10 +17,17 @@ namespace NickCustomMusicMod.Data
         [JsonProperty("end")]
         public int End { get; private set; }
 
-        public CustomLoopPoints(int startPoint, int endPoint) 
+        public CustomLoopPoints(int startPoint, int endPoint)
         {
             Start = startPoint;
             End = endPoint;
+        }
+
+        // Default constructor is used if class is not found in json file
+        public CustomLoopPoints()
+        {
+            Start = -1;
+            End = -1;
         }
     }
 }

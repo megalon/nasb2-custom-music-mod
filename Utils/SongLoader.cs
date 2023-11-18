@@ -92,6 +92,7 @@ namespace NASB2CustomMusicMod.Utils
 
                     customMusicData.loopStartPointSec = Mathf.Clamp(customMusicData.loopStartPointSec, 0, musicSource.clip.length);
                     customMusicData.loopEndPointSec = Mathf.Clamp(customMusicData.loopEndPointSec, 0, musicSource.clip.length);
+
                     customMusicData.loopPoints = new CustomLoopPoints(
                         Mathf.Clamp(customMusicData.loopPoints.Start, 0, musicSource.clip.samples),
                         Mathf.Clamp(customMusicData.loopPoints.End, 0, musicSource.clip.samples)
