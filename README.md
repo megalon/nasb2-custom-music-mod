@@ -55,6 +55,49 @@ For example, if you want to use a different song for the Jellyfish Fields stage,
 
 If multiple audio files are in the same folder, one is randomly selected each time that stage / menu / victory theme is loaded!
 
+## ⟲ Loop points *(optional)*
+
+To define a loop start and end point, create a JSON file in the same folder as your audio file, and give it the same name as your audio file.
+
+A JSON file is just a regular text file, but instead of `.txt` it is `.json`
+
+You may need to [turn on file extensions on Windows](https://fileinfo.com/help/windows_10_show_file_extensions) to be able to see and edit the `.json` extension.
+
+**File structure example**
+```
+Stages
+    ↳ Jellyfish Fields
+        ↳ Song1.wav
+        ↳ Song1.json
+```
+
+**JSON file contents**
+
+Samples are more precise than seconds, but the NASB1 version of this mod used seconds, so this mod allows both for backwards compatibility.
+
+*Using samples*
+```json
+{
+  "loopPoints": { "start": 199665, "end": 21977555 }
+}
+```
+When `21,977,555` samples have elapsed in the song, it will loop back to `199,665` samples!
+
+*Using Seconds*
+```json
+{
+  "loopStartPointSec": "4.462",
+  "loopEndPointSec": "49.803"
+}
+```
+When `49.803` seconds have elapsed in the song, it will loop back to `4.462` seconds!
+
+To find loop points in your song, you can use some free audio software like [Audacity](https://www.audacityteam.org/).
+
+I would recommend using a DAW with more precise BPM / looping support, such as Reaper, Ableton Live, FL Studio, etc.
+
+*If both samples and seconds are present in a file, samples take priority because they are more precise.*
+
 ## ❔ FAQ
 
 ### "My .mp3 didn't work!"
