@@ -60,12 +60,12 @@ namespace NASB2CustomMusicMod.Patches
             }
 
             // Loop
-            if (Plugin.customTrack.LoopStartPointSamples >= 0 && Plugin.customTrack.LoopEndPointSamples > 0)
+            if (Plugin.customTrack.LoopPointsSamples != null && Plugin.customTrack.LoopPointsSamples.Start >= 0 && Plugin.customTrack.LoopPointsSamples.End > 0)
             {
-                if (firstMusicSource.timeSamples >= Plugin.customTrack.LoopEndPointSamples)
+                if (firstMusicSource.timeSamples >= Plugin.customTrack.LoopPointsSamples.End)
                 {
-                    Plugin.LogWarning($"Looping! firstMusicSource.timeSamples: {firstMusicSource.timeSamples} | Loop points: {Plugin.customTrack.LoopStartPointSamples}, {Plugin.customTrack.LoopEndPointSamples}");
-                    firstMusicSource.timeSamples -= (Plugin.customTrack.LoopEndPointSamples - Plugin.customTrack.LoopStartPointSamples);
+                    Plugin.LogWarning($"Looping! firstMusicSource.timeSamples: {firstMusicSource.timeSamples} | Loop points: {Plugin.customTrack.LoopPointsSamples.Start}, {Plugin.customTrack.LoopPointsSamples.End}");
+                    firstMusicSource.timeSamples -= (Plugin.customTrack.LoopPointsSamples.End - Plugin.customTrack.LoopPointsSamples.Start);
                 }
             } else if (Plugin.customTrack.LoopStartPointSec >= 0 && Plugin.customTrack.LoopEndPointSec > 0)
             {

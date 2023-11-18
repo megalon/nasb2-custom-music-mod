@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -8,7 +9,21 @@ namespace NickCustomMusicMod.Data
     {
         public float loopStartPointSec;
         public float loopEndPointSec;
-        public int loopStartPointSamples;
-        public int loopEndPointSamples;
+        public CustomLoopPoints loopPointsSamples;
+    }
+
+    class CustomLoopPoints
+    {
+        [JsonProperty("start")]
+        public int Start { get; private set; }
+
+        [JsonProperty("end")]
+        public int End { get; private set; }
+
+        public CustomLoopPoints(int startPoint, int endPoint) 
+        {
+            Start = startPoint;
+            End = endPoint;
+        }
     }
 }
