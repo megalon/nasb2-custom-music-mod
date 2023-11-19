@@ -2,11 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BepInEx;
 using NickCustomMusicMod.Utils;
-using System.Threading;
 using UnityEngine.Localization;
 using NASB2CustomMusicMod.Management;
 
@@ -25,37 +22,43 @@ namespace NickCustomMusicMod.Management
 			// Create the folder if it doesn't exist
 			Directory.CreateDirectory(rootCustomSongsPath);
 
-			Plugin.LogInfo("Loading songs from subfolders...");
-			LoadFromSubDirectories(Consts.stagesFolderName);
-			LoadFromSubDirectories(Consts.menusFolderName);
-			LoadFromSubDirectories(Consts.victoryThemesFolderName);
-			Plugin.LogInfo("Finished loading songs from subfolders!");
-
-            // TODO fix song packs!
-			//Plugin.LogInfo("Loading song packs...");
-			//LoadFromSongPacks();
-			//Plugin.LogInfo("Finished loading song packs!");
-
 			Plugin.LogInfo("Generating folders if they don't exist...");
-			foreach (string menuName in Consts.MenuIDs.Keys)
-			{
-				Directory.CreateDirectory(Path.Combine(rootCustomSongsPath, Consts.menusFolderName, menuName));
-			}
 
-			foreach (string stageName in Consts.StageIDs.Keys)
-			{
-				Directory.CreateDirectory(Path.Combine(rootCustomSongsPath, Consts.stagesFolderName, stageName));
-			}
+			// Create the "_Song Packs" folder, "Template" folder, and "_Music Bank" in one go
+            Directory.CreateDirectory(Path.Combine(rootCustomSongsPath, Consts.songPacksFolderName, Consts.templateSongPackName, Consts.musicBankFolderName));
 
-			foreach (string characterName in Consts.CharacterFolderNames)
-			{
-				Directory.CreateDirectory(Path.Combine(rootCustomSongsPath, Consts.victoryThemesFolderName, characterName));
-			}
+			string templateSongPackPath = Path.Combine(rootCustomSongsPath, Consts.songPacksFolderName, Consts.templateSongPackName);
 
-			// TODO generate song pack folder!
-			//Directory.CreateDirectory(Path.Combine(rootCustomSongsPath, Consts.songPacksFolderName));
+            foreach (string menuID in Consts.MenuIDs.Keys)
+            {
+                Directory.CreateDirectory(Path.Combine(rootCustomSongsPath, Consts.menusFolderName, menuID));
+				FileHandlingUtils.TryToCreateFile(Path.Combine(templateSongPackPath, Consts.menusFolderName), $"{menuID}.txt");
+            }
+
+            foreach (string stageName in Consts.StageIDs.Keys)
+            {
+                Directory.CreateDirectory(Path.Combine(rootCustomSongsPath, Consts.stagesFolderName, stageName));
+                FileHandlingUtils.TryToCreateFile(Path.Combine(templateSongPackPath, Consts.stagesFolderName), $"{stageName}.txt");
+            }
+
+            foreach (string characterName in Consts.CharacterFolderNames)
+            {
+                Directory.CreateDirectory(Path.Combine(rootCustomSongsPath, Consts.victoryThemesFolderName, characterName));
+                FileHandlingUtils.TryToCreateFile(Path.Combine(templateSongPackPath, Consts.victoryThemesFolderName), $"{characterName}.txt");
+            }
+
 			Plugin.LogInfo("Finished generating folders!");
-		}
+
+            Plugin.LogInfo("Loading songs from subfolders...");
+            LoadFromSubDirectories(Consts.stagesFolderName);
+            LoadFromSubDirectories(Consts.menusFolderName);
+            LoadFromSubDirectories(Consts.victoryThemesFolderName);
+            Plugin.LogInfo("Finished loading songs from subfolders!");
+
+            Plugin.LogInfo("Loading song packs...");
+            LoadFromSongPacks();
+            Plugin.LogInfo("Finished loading song packs!");
+        }
 
 		public static void LoadFromSubDirectories(string parentFolderName)
 		{
@@ -98,7 +101,7 @@ namespace NickCustomMusicMod.Management
 
 			string dictKey = constructDictionaryKey(parentFolderName, folderName);
 
-            Plugin.LogInfo($"Dictionarykey: {dictKey}");
+            Plugin.LogDebug($"Dictionarykey: {dictKey}");
 
 			songDictionaries.Add(dictKey, MusicTrackDict);
 		}
@@ -110,6 +113,9 @@ namespace NickCustomMusicMod.Management
 
 			foreach (string directory in subDirectories) {
 				var packName = new DirectoryInfo(directory).Name;
+
+				// Don't load template pack
+				if (packName.Equals(Consts.templateSongPackName)) continue;
 
 				LoadPack(packName);
 			}
@@ -138,13 +144,25 @@ namespace NickCustomMusicMod.Management
 				string musicBankPath = Path.Combine(rootCustomSongsPath, Consts.songPacksFolderName, packName, Consts.musicBankFolderName);
 				string listPath = Path.Combine(folderPath, textFileName);
 
-				Dictionary<string, CustomMusicTrack> MusicTrackDict = songDictionaries[constructDictionaryKey(folderName, Path.GetFileNameWithoutExtension(textFileName))];
-
-				foreach (string textLine in File.ReadLines(listPath))
+				try
 				{
-					if (textLine.IsNullOrWhiteSpace()) continue;
+                    Dictionary<string, CustomMusicTrack> MusicTrackDict = songDictionaries[constructDictionaryKey(folderName, Path.GetFileNameWithoutExtension(textFileName))];
 
-					addMusicTrackToDict(MusicTrackDict, Path.Combine(musicBankPath, textLine.Trim()));
+                    foreach (string textLine in File.ReadLines(listPath))
+                    {
+                        if (textLine.IsNullOrWhiteSpace()) continue;
+
+                        addMusicTrackToDict(MusicTrackDict, Path.Combine(musicBankPath, textLine.Trim()));
+                    }
+                } catch (Exception e)
+				{
+					if (e.GetType() == typeof(KeyNotFoundException))
+					{
+						Plugin.LogError($"{e.Message} It may be misspelled, or that stage / menu / character doesn't exist!");
+					} else
+					{
+                        Plugin.LogError(e.ToString());
+                    }
 				}
 			}
 		}
@@ -195,7 +213,7 @@ namespace NickCustomMusicMod.Management
                 }
             } else
             {
-                Plugin.LogInfo($"songDictionaries did not contain key: {id}");
+                Plugin.LogWarning($"GetRandomCustomSong: songDictionaries did not contain key: {id}");
             }
 
             return null;
