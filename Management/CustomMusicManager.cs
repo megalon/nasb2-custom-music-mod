@@ -22,16 +22,6 @@ namespace NickCustomMusicMod.Management
 			// Create the folder if it doesn't exist
 			Directory.CreateDirectory(rootCustomSongsPath);
 
-			Plugin.LogInfo("Loading songs from subfolders...");
-			LoadFromSubDirectories(Consts.stagesFolderName);
-			LoadFromSubDirectories(Consts.menusFolderName);
-			LoadFromSubDirectories(Consts.victoryThemesFolderName);
-			Plugin.LogInfo("Finished loading songs from subfolders!");
-
-			Plugin.LogInfo("Loading song packs...");
-			LoadFromSongPacks();
-			Plugin.LogInfo("Finished loading song packs!");
-
 			Plugin.LogInfo("Generating folders if they don't exist...");
 
 			// Create the "_Song Packs" folder, "Template" folder, and "_Music Bank" in one go
@@ -58,7 +48,17 @@ namespace NickCustomMusicMod.Management
             }
 
 			Plugin.LogInfo("Finished generating folders!");
-		}
+
+            Plugin.LogInfo("Loading songs from subfolders...");
+            LoadFromSubDirectories(Consts.stagesFolderName);
+            LoadFromSubDirectories(Consts.menusFolderName);
+            LoadFromSubDirectories(Consts.victoryThemesFolderName);
+            Plugin.LogInfo("Finished loading songs from subfolders!");
+
+            Plugin.LogInfo("Loading song packs...");
+            LoadFromSongPacks();
+            Plugin.LogInfo("Finished loading song packs!");
+        }
 
 		public static void LoadFromSubDirectories(string parentFolderName)
 		{
