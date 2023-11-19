@@ -114,6 +114,9 @@ namespace NickCustomMusicMod.Management
 			foreach (string directory in subDirectories) {
 				var packName = new DirectoryInfo(directory).Name;
 
+				// Don't load template pack
+				if (packName.Equals(Consts.templateSongPackName)) continue;
+
 				LoadPack(packName);
 			}
 		}
