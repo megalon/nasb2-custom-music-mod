@@ -101,7 +101,7 @@ namespace NickCustomMusicMod.Management
 
 			string dictKey = constructDictionaryKey(parentFolderName, folderName);
 
-            Plugin.LogInfo($"Dictionarykey: {dictKey}");
+            Plugin.LogDebug($"Dictionarykey: {dictKey}");
 
 			songDictionaries.Add(dictKey, MusicTrackDict);
 		}
