@@ -144,13 +144,25 @@ namespace NickCustomMusicMod.Management
 				string musicBankPath = Path.Combine(rootCustomSongsPath, Consts.songPacksFolderName, packName, Consts.musicBankFolderName);
 				string listPath = Path.Combine(folderPath, textFileName);
 
-				Dictionary<string, CustomMusicTrack> MusicTrackDict = songDictionaries[constructDictionaryKey(folderName, Path.GetFileNameWithoutExtension(textFileName))];
-
-				foreach (string textLine in File.ReadLines(listPath))
+				try
 				{
-					if (textLine.IsNullOrWhiteSpace()) continue;
+                    Dictionary<string, CustomMusicTrack> MusicTrackDict = songDictionaries[constructDictionaryKey(folderName, Path.GetFileNameWithoutExtension(textFileName))];
 
-					addMusicTrackToDict(MusicTrackDict, Path.Combine(musicBankPath, textLine.Trim()));
+                    foreach (string textLine in File.ReadLines(listPath))
+                    {
+                        if (textLine.IsNullOrWhiteSpace()) continue;
+
+                        addMusicTrackToDict(MusicTrackDict, Path.Combine(musicBankPath, textLine.Trim()));
+                    }
+                } catch (Exception e)
+				{
+					if (e.GetType() == typeof(KeyNotFoundException))
+					{
+						Plugin.LogError($"{e.Message} It may be misspelled, or that stage / menu / character doesn't exist!");
+					} else
+					{
+                        Plugin.LogError(e.ToString());
+                    }
 				}
 			}
 		}
@@ -201,7 +213,7 @@ namespace NickCustomMusicMod.Management
                 }
             } else
             {
-                Plugin.LogInfo($"songDictionaries did not contain key: {id}");
+                Plugin.LogWarning($"GetRandomCustomSong: songDictionaries did not contain key: {id}");
             }
 
             return null;
