@@ -120,5 +120,30 @@ namespace NickCustomMusicMod.Utils
 
 			return true;
 		}
+
+		public static bool TryToCreateFile(string path, string filename)
+		{
+			try
+			{
+				Directory.CreateDirectory(path);
+
+				string filepath = Path.Combine(path, filename);
+
+                if (!File.Exists(filepath))
+                {
+					using (File.Create(filepath))
+					{
+						// Apparently this is to ensure the file is closed correctly after creation
+					}
+                }
+
+				return true;
+            } catch (Exception e) 
+			{
+				Plugin.LogError(e.Message);
+			}
+
+			return false;
+		}
 	}
 }

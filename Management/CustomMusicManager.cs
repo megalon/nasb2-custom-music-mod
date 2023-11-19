@@ -2,11 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BepInEx;
 using NickCustomMusicMod.Utils;
-using System.Threading;
 using UnityEngine.Localization;
 using NASB2CustomMusicMod.Management;
 
@@ -31,29 +28,35 @@ namespace NickCustomMusicMod.Management
 			LoadFromSubDirectories(Consts.victoryThemesFolderName);
 			Plugin.LogInfo("Finished loading songs from subfolders!");
 
-            // TODO fix song packs!
-			//Plugin.LogInfo("Loading song packs...");
-			//LoadFromSongPacks();
-			//Plugin.LogInfo("Finished loading song packs!");
+			Plugin.LogInfo("Loading song packs...");
+			LoadFromSongPacks();
+			Plugin.LogInfo("Finished loading song packs!");
 
 			Plugin.LogInfo("Generating folders if they don't exist...");
-			foreach (string menuName in Consts.MenuIDs.Keys)
-			{
-				Directory.CreateDirectory(Path.Combine(rootCustomSongsPath, Consts.menusFolderName, menuName));
-			}
 
-			foreach (string stageName in Consts.StageIDs.Keys)
-			{
-				Directory.CreateDirectory(Path.Combine(rootCustomSongsPath, Consts.stagesFolderName, stageName));
-			}
+			// Create the "_Song Packs" folder, "Template" folder, and "_Music Bank" in one go
+            Directory.CreateDirectory(Path.Combine(rootCustomSongsPath, Consts.songPacksFolderName, Consts.templateSongPackName, Consts.musicBankFolderName));
 
-			foreach (string characterName in Consts.CharacterFolderNames)
-			{
-				Directory.CreateDirectory(Path.Combine(rootCustomSongsPath, Consts.victoryThemesFolderName, characterName));
-			}
+			string templateSongPackPath = Path.Combine(rootCustomSongsPath, Consts.songPacksFolderName, Consts.templateSongPackName);
 
-			// TODO generate song pack folder!
-			//Directory.CreateDirectory(Path.Combine(rootCustomSongsPath, Consts.songPacksFolderName));
+            foreach (string menuID in Consts.MenuIDs.Keys)
+            {
+                Directory.CreateDirectory(Path.Combine(rootCustomSongsPath, Consts.menusFolderName, menuID));
+				FileHandlingUtils.TryToCreateFile(Path.Combine(templateSongPackPath, Consts.menusFolderName), $"{menuID}.txt");
+            }
+
+            foreach (string stageName in Consts.StageIDs.Keys)
+            {
+                Directory.CreateDirectory(Path.Combine(rootCustomSongsPath, Consts.stagesFolderName, stageName));
+                FileHandlingUtils.TryToCreateFile(Path.Combine(templateSongPackPath, Consts.stagesFolderName), $"{stageName}.txt");
+            }
+
+            foreach (string characterName in Consts.CharacterFolderNames)
+            {
+                Directory.CreateDirectory(Path.Combine(rootCustomSongsPath, Consts.victoryThemesFolderName, characterName));
+                FileHandlingUtils.TryToCreateFile(Path.Combine(templateSongPackPath, Consts.victoryThemesFolderName), $"{characterName}.txt");
+            }
+
 			Plugin.LogInfo("Finished generating folders!");
 		}
 
