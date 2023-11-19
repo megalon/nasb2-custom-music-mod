@@ -31,6 +31,10 @@ If you're updating from a previous version, just extract the latest release zip 
 
 ## ℹ Usage
 
+For basic usage see the simple format shown below.
+
+For more advanced usage, see [Song Packs](#-song-packs-advanced-usage).
+
 ### Folder structure
 ```
 BepInEx
@@ -97,6 +101,65 @@ To find loop points in your song, you can use some free audio software like [Aud
 I would recommend using a DAW with more precise BPM / looping support, such as Reaper, Ableton Live, FL Studio, etc.
 
 *If both samples and seconds are present in a file, samples take priority because they are more precise.*
+
+## 🎵 Song Packs *(Advanced Usage)*
+
+A Song Pack is a more efficient way to reuse songs across multiple stages / menus / victory themes!
+
+Song Packs should be placed in the folder `BepInEx/CustomSongs/_Song Packs/`
+
+Example Song Pack file structure:
+```
+↳ SongPack1
+    ↳ _Music Bank
+        ↳ song1.mp3
+        ↳ different-song.ogg
+        ↳ looped-song.mp3
+        ↳ looped-song.json
+        ↳ 4th-song.ogg
+          ...
+    ↳ Menus
+        ↳ MainMenu.txt
+        ↳ OnlineMenu.txt
+          ...
+    ↳ Stages
+        ↳ Angry Beavers Dam.txt
+        ↳ Bun Wrestling Ring.txt
+          ...
+    ↳ Victory Themes
+        ↳ Aang.txt
+        ↳ AngryBeavers.txt
+          ...
+```
+
+### How to make a Song Pack
+1. Navigate into the `BepInEx/CustomSongs/_Song Packs/` folder.
+1. Duplicate the `_Template` folder, and rename it. Something like `Absolute Jammers`.
+1. Place all of the songs you want to use in this song pack into the `Absolute Jammers/_Music Bank` folder.
+1. Open the text file for the menu / stage / victory theme you want to add music to. For example, the main menu is `Absolute Jammers/Menus/MainMenu.txt`
+1. In this text file, enter a list of song file names from the `_Music Bank` folder that you want to play on this menu / stage / victory theme. The order doesn't matter, but __***you must put each song on it's own line!***__
+
+Example `MainMenu.txt`:
+```
+song1.mp3
+looped-song.mp3
+different-song.ogg
+```
+You can then reuse these songs in other menus / stages / victory themes!
+
+Example `Jellyfish Fields.txt`
+```
+song1.mp3
+looped-song.mp3
+4th-song.ogg
+```
+
+That's it! When you launch the game it should load all song packs and any songs placed in the regular folders.
+
+You can check the log file for errors, `BepInEx/LogOutput.log`. If you have issues loading songs, check your spelling! Files are case sensitive!
+
+**Note:** *If you want the songs to loop at specific points, you will need to place corresponding json files in the `_Music Bank` folder as well. See [Loop Points.](#-loop-points-optional)*
+
 
 ## ❔ FAQ
 
